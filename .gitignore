@@ -1,0 +1,7 @@
+.vscode
+node_modules
+
+shared/src/level/bgm.mp3
+
+.dev
+dist

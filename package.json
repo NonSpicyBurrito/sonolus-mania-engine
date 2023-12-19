@@ -1,0 +1,37 @@
+{
+  "name": "sonolus-mania-engine",
+  "version": "1.0.0",
+  "description": "A Beatmania inspired engine in Sonolus",
+  "author": "NonSpicyBurrito",
+  "repository": "github:NonSpicyBurrito/sonolus-mania-engine",
+  "license": "MIT",
+  "keywords": [
+    "Sonolus"
+  ],
+  "main": "dist/index.cjs",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "dev:play": "sonolus-cli --dev ./play",
+    "dev:watch": "sonolus-cli --dev ./watch",
+    "dev:preview": "sonolus-cli --dev ./preview",
+    "dev:tutorial": "sonolus-cli --dev ./tutorial",
+    "prebuild": "tsc -p ./lib --noEmit && tsc -p ./shared --noEmit && tsc -p ./play --noEmit && tsc -p ./watch --noEmit && tsc -p ./preview --noEmit && tsc -p ./tutorial --noEmit && eslint . && prettier . --check",
+    "build": "tsc -p ./lib && sonolus-cli --build ./play && sonolus-cli --build ./watch && sonolus-cli --build ./preview && sonolus-cli --build ./tutorial && node ./lib/build.mjs"
+  },
+  "dependencies": {
+    "sonolus-core": "~7.4.0"
+  },
+  "devDependencies": {
+    "@types/node": "^16.18.68",
+    "@typescript-eslint/eslint-plugin": "^6.14.0",
+    "@typescript-eslint/parser": "^6.14.0",
+    "eslint": "^8.55.0",
+    "eslint-config-prettier": "^9.1.0",
+    "prettier": "^3.1.1",
+    "prettier-plugin-organize-imports": "^3.2.4",
+    "sonolus.js": "~9.3.0",
+    "typescript": "~5.3.3"
+  }
+}
