@@ -32,6 +32,11 @@ export const optionsDefinition = {
         max: 80,
         step: 0.1,
     },
+    fullscreenInputEnabled: {
+        name: 'Fullscreen Input',
+        type: 'toggle',
+        def: 0,
+    },
     mirror: {
         name: NameText.MirrorLevel,
         type: 'toggle',

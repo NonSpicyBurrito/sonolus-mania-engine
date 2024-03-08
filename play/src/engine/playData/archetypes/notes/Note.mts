@@ -6,6 +6,7 @@ import { hitEffectLayout, particle } from '../../particle.mjs'
 import { scaledScreen } from '../../scaledScreen.mjs'
 import { getZ, layer, skin } from '../../skin.mjs'
 import { windows } from '../../windows.mjs'
+import { archetypes } from '../index.mjs'
 
 export abstract class Note extends Archetype {
     hasInput = true
@@ -93,8 +94,8 @@ export abstract class Note extends Archetype {
         this.z = getZ(layer.note.body, this.targetTime, this.lane)
 
         new Rect({
-            l: this.lane - 0.5,
-            r: this.lane + 0.5,
+            l: this.getHitboxX(-0.5),
+            r: this.getHitboxX(0.5),
             t: scaledScreen.t,
             b: scaledScreen.b,
         })
@@ -167,5 +168,15 @@ export abstract class Note extends Archetype {
 
     playLaneEffects() {
         particle.effects.lane.spawn(Rect.rb.scale(1, -1).translate(this.lane - 0.5, 0), 0.2, false)
+    }
+
+    get lanes() {
+        return archetypes.Initialization.data.get(0).lanes
+    }
+
+    getHitboxX(offset: number) {
+        return options.fullscreenInputEnabled
+            ? Math.lerp(scaledScreen.l, scaledScreen.r, (this.lane + offset) / this.lanes + 0.5)
+            : this.lane + offset
     }
 }

@@ -20,8 +20,8 @@ export class Stage extends Archetype {
 
     initialize() {
         new Rect({
-            l: -this.lanes / 2,
-            r: this.lanes / 2,
+            l: options.fullscreenInputEnabled ? scaledScreen.l : -this.lanes / 2,
+            r: options.fullscreenInputEnabled ? scaledScreen.r : this.lanes / 2,
             t: scaledScreen.t,
             b: scaledScreen.b,
         })
