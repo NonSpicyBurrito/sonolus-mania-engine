@@ -1,4 +1,4 @@
-import { EngineConfigurationOption, NameText, UnitText } from 'sonolus-core'
+import { EngineConfigurationOption, NameText, UnitText, ValueText } from 'sonolus-core'
 
 export const optionsDefinition = {
     speed: {
@@ -116,6 +116,13 @@ export const optionsDefinition = {
         max: 1,
         step: 0.05,
         unit: UnitText.Percentage,
+    },
+    stageDirection: {
+        name: 'Stage Direction',
+        scope: 'Mania',
+        type: 'select',
+        def: 0,
+        values: [ValueText.Right, ValueText.Down],
     },
     stageSize: {
         name: NameText.StageSize,

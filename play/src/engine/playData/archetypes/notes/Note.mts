@@ -1,10 +1,11 @@
 import { EngineArchetypeDataName } from 'sonolus-core'
 import { options } from '../../../configuration/options.mjs'
 import { effect, getScheduleSFXTime, sfxDistance } from '../../effect.mjs'
+import { hitboxLayout } from '../../hitbox.mjs'
 import { note, noteLayout } from '../../note.mjs'
 import { hitEffectLayout, particle } from '../../particle.mjs'
 import { scaledScreen } from '../../scaledScreen.mjs'
-import { getZ, layer, skin } from '../../skin.mjs'
+import { getZ, layer } from '../../skin.mjs'
 import { windows } from '../../windows.mjs'
 import { archetypes } from '../index.mjs'
 
@@ -93,14 +94,10 @@ export abstract class Note extends Archetype {
 
         this.z = getZ(layer.note.body, this.targetTime, this.lane)
 
-        new Rect({
+        hitboxLayout({
             l: this.getHitboxX(-0.5),
             r: this.getHitboxX(0.5),
-            t: scaledScreen.t,
-            b: scaledScreen.b,
-        })
-            .transform(skin.transform)
-            .copyTo(this.hitbox)
+        }).copyTo(this.hitbox)
 
         this.result.accuracy = windows.good.max
     }

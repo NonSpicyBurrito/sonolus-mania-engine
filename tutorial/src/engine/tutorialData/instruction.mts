@@ -13,15 +13,14 @@ export const instruction = defineInstruction({
     },
 })
 
-export const drawHand = (angle: number, x: number, a: number) =>
+export const drawHand = (angle: number, a: number) =>
     instruction.icons.hand.paint(
-        new Vec(0, 1)
+        new Vec(-1, 0)
             .rotate(angle)
             .mul(0.25 * ui.configuration.instruction.scale)
-            .add(hand.position)
-            .translate(x, 0),
+            .add(hand.position),
         0.25 * ui.configuration.instruction.scale,
-        (180 * angle) / Math.PI,
+        (180 * angle) / Math.PI + 90,
         0,
         a * ui.configuration.instruction.alpha,
     )

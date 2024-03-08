@@ -17,7 +17,7 @@ export const holdEndNoteFall = {
     },
 
     update() {
-        drawHand(Math.PI / 3, 0, 1)
+        drawHand(Math.PI / 3, 1)
     },
 
     exit() {
