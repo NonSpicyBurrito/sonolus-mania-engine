@@ -23,10 +23,6 @@ export const mcToLevelData = (mc: MC, offset = 0): LevelData => {
             ],
         },
         {
-            archetype: 'InputManager',
-            data: [],
-        },
-        {
             archetype: 'Stage',
             data: [],
         },
