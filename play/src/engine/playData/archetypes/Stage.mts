@@ -1,5 +1,6 @@
 import { options } from '../../configuration/options.mjs'
 import { effect, sfxDistance } from '../effect.mjs'
+import { hitboxLayout } from '../hitbox.mjs'
 import { noteLayout } from '../note.mjs'
 import { particle } from '../particle.mjs'
 import { scaledScreen } from '../scaledScreen.mjs'
@@ -11,18 +12,18 @@ export class Stage extends Archetype {
     hitbox = this.entityMemory(Rect)
 
     spawnOrder() {
-        return 2
+        return 1
+    }
+
+    shouldSpawn() {
+        return entityInfos.get(0).state === EntityState.Despawned
     }
 
     initialize() {
-        new Rect({
-            l: -this.lanes / 2,
-            r: this.lanes / 2,
-            t: scaledScreen.t,
-            b: scaledScreen.b,
-        })
-            .transform(skin.transform)
-            .copyTo(this.hitbox)
+        hitboxLayout({
+            l: options.fullscreenInputEnabled ? scaledScreen.l : -this.lanes / 2,
+            r: options.fullscreenInputEnabled ? scaledScreen.r : this.lanes / 2,
+        }).copyTo(this.hitbox)
     }
 
     touchOrder = 2
@@ -91,12 +92,20 @@ export class Stage extends Archetype {
 
     onEmptyTap(touch: Touch) {
         if (options.sfxEnabled) this.playEmptySFX()
-        if (options.laneEffectEnabled) this.playEmptyLaneEffects(this.xToL(touch.position.x))
+        if (options.laneEffectEnabled) this.playEmptyLaneEffects(this.touchToLane(touch))
     }
 
-    xToL(x: number) {
+    touchToLane({ position }: Touch) {
+        const direction = options.stageDirection > 1 ? -1 : 1
+
         return (
-            Math.floor(Math.unlerp(this.hitbox.l, this.hitbox.r, x) * this.lanes) - this.lanes / 2
+            Math.floor(
+                (options.stageDirection % 2 === 0
+                    ? Math.unlerp(this.hitbox.l, this.hitbox.r, position.x * direction)
+                    : Math.unlerp(this.hitbox.b, this.hitbox.t, position.y * direction)) *
+                    this.lanes,
+            ) -
+            this.lanes / 2
         )
     }
 

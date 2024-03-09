@@ -1,4 +1,4 @@
-import { EngineConfigurationOption, NameText, UnitText } from 'sonolus-core'
+import { EngineConfigurationOption, NameText, UnitText, ValueText } from 'sonolus-core'
 
 export const optionsDefinition = {
     speed: {
@@ -31,6 +31,11 @@ export const optionsDefinition = {
         min: 1,
         max: 80,
         step: 0.1,
+    },
+    fullscreenInputEnabled: {
+        name: 'Fullscreen Input',
+        type: 'toggle',
+        def: 0,
     },
     mirror: {
         name: NameText.MirrorLevel,
@@ -111,6 +116,13 @@ export const optionsDefinition = {
         max: 1,
         step: 0.05,
         unit: UnitText.Percentage,
+    },
+    stageDirection: {
+        name: 'Stage Direction',
+        scope: 'Mania',
+        type: 'select',
+        def: 1,
+        values: [ValueText.Down, ValueText.Right, ValueText.Up, ValueText.Left],
     },
     stageSize: {
         name: NameText.StageSize,
