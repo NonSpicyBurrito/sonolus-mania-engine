@@ -11,7 +11,7 @@ export abstract class SingleNote extends Note {
     preprocess() {
         super.preprocess()
 
-        if (options.mirror) this.singleData.lane *= -1
+        if (options.mirror !== options.stageDirection > 1) this.singleData.lane *= -1
 
         this.spawnTime = Math.min(this.scheduleSFXTime, this.visualTime.min)
     }

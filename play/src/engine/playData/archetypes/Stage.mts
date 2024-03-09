@@ -96,11 +96,14 @@ export class Stage extends Archetype {
     }
 
     touchToLane({ position }: Touch) {
+        const direction = options.stageDirection > 1 ? -1 : 1
+
         return (
             Math.floor(
-                (options.stageDirection === 0
-                    ? Math.unlerp(this.hitbox.b, this.hitbox.t, position.y)
-                    : Math.unlerp(this.hitbox.l, this.hitbox.r, position.x)) * this.lanes,
+                (options.stageDirection % 2 === 0
+                    ? Math.unlerp(this.hitbox.l, this.hitbox.r, position.x * direction)
+                    : Math.unlerp(this.hitbox.b, this.hitbox.t, position.y * direction)) *
+                    this.lanes,
             ) -
             this.lanes / 2
         )

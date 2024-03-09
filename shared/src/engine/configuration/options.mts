@@ -121,8 +121,8 @@ export const optionsDefinition = {
         name: 'Stage Direction',
         scope: 'Mania',
         type: 'select',
-        def: 0,
-        values: [ValueText.Right, ValueText.Down],
+        def: 1,
+        values: [ValueText.Down, ValueText.Right, ValueText.Up, ValueText.Left],
     },
     stageSize: {
         name: NameText.StageSize,

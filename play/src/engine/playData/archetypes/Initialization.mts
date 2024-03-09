@@ -12,7 +12,8 @@ export class Initialization extends Archetype {
     })
 
     preprocess() {
-        const angle = options.stageDirection === 1 ? 0 : Math.PI / 2
+        const angle = (options.stageDirection * Math.PI) / 2
+        const inverted = options.stageDirection > 1
 
         const rotatedScreen = bounds(screen.rect.toQuad().rotate(angle))
 
@@ -51,10 +52,10 @@ export class Initialization extends Archetype {
             cap: 1000,
         })
 
-        if (options.stageDirection === 1) {
-            this.setupHorizontalUI()
+        if (options.stageDirection % 2 === 0) {
+            this.setupHorizontalUI(inverted)
         } else {
-            this.setupVerticalUI()
+            this.setupVerticalUI(inverted)
         }
 
         for (const archetype of Object.values(archetypes)) {
@@ -64,7 +65,7 @@ export class Initialization extends Archetype {
         }
     }
 
-    setupVerticalUI() {
+    setupVerticalUI(inverted: boolean) {
         const gap = 0.05
         const uiRect = screen.rect.shrink(gap, gap)
 
@@ -121,7 +122,7 @@ export class Initialization extends Archetype {
             background: false,
         })
 
-        const x = Math.lerp(screen.l, screen.r, 0.25)
+        const x = Math.lerp(screen.l, screen.r, inverted ? 0.5 : 0.25)
 
         const comboSize = new Vec(0, 0.15).mul(ui.configuration.combo.scale)
         const judgmentSize = new Vec(0, 0.1).mul(ui.configuration.judgment.scale)
@@ -147,7 +148,7 @@ export class Initialization extends Archetype {
         })
     }
 
-    setupHorizontalUI() {
+    setupHorizontalUI(inverted: boolean) {
         const gap = 0.05
         const uiRect = screen.rect.shrink(gap, gap)
 
@@ -206,7 +207,7 @@ export class Initialization extends Archetype {
             background: false,
         })
 
-        const y = Math.lerp(screen.t, screen.b, 0.25)
+        const y = Math.lerp(screen.t, screen.b, inverted ? 0.5 : 0.25)
 
         const comboSize = new Vec(0, 0.15).mul(ui.configuration.combo.scale)
         const judgmentSize = new Vec(0, 0.1).mul(ui.configuration.judgment.scale)
