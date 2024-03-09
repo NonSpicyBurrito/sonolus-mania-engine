@@ -5,7 +5,7 @@ export { mcToLevelData } from './mc/convert.cjs'
 export * from './mc/index.cjs'
 export { osuToMC } from './osu/convert.cjs'
 
-export const version = '1.0.0'
+export const version = '1.1.0'
 
 export const engineInfo = {
     name: 'mania',
