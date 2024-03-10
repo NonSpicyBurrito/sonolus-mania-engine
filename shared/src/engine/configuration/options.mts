@@ -34,6 +34,7 @@ export const optionsDefinition = {
     },
     fullscreenInputEnabled: {
         name: 'Fullscreen Input',
+        scope: 'Mania',
         type: 'toggle',
         def: 0,
     },
