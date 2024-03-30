@@ -4,14 +4,14 @@ import { getZ, layer, skin } from '../skin.mjs'
 import { archetypes } from './index.mjs'
 
 export class HoldConnector extends Archetype {
-    data = this.defineData({
+    import = this.defineImport({
         tailRef: { name: 'tail', type: Number },
     })
 
     render() {
         const t = {
-            min: bpmChanges.at(this.headData.beat).time,
-            max: bpmChanges.at(this.tailData.beat).time,
+            min: bpmChanges.at(this.headImport.beat).time,
+            max: bpmChanges.at(this.tailImport.beat).time,
         }
 
         const index = {
@@ -19,7 +19,7 @@ export class HoldConnector extends Archetype {
             max: Math.floor(t.max / panel.h),
         }
 
-        const lane = this.headSingleData.lane
+        const lane = this.headSingleImport.lane
         const l = lane - 0.5 * options.noteSize
         const r = lane + 0.5 * options.noteSize
 
@@ -45,22 +45,22 @@ export class HoldConnector extends Archetype {
     }
 
     get headRef() {
-        return this.tailHoldData.prevRef
+        return this.tailHoldImport.prevRef
     }
 
-    get headData() {
-        return archetypes.HoldStartNote.data.get(this.headRef)
+    get headImport() {
+        return archetypes.HoldStartNote.import.get(this.headRef)
     }
 
-    get headSingleData() {
-        return archetypes.HoldStartNote.singleData.get(this.headRef)
+    get headSingleImport() {
+        return archetypes.HoldStartNote.singleImport.get(this.headRef)
     }
 
-    get tailData() {
-        return archetypes.HoldEndNote.data.get(this.data.tailRef)
+    get tailImport() {
+        return archetypes.HoldEndNote.import.get(this.import.tailRef)
     }
 
-    get tailHoldData() {
-        return archetypes.HoldEndNote.holdData.get(this.data.tailRef)
+    get tailHoldImport() {
+        return archetypes.HoldEndNote.holdImport.get(this.import.tailRef)
     }
 }

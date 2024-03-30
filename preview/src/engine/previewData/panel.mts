@@ -9,7 +9,7 @@ export const panel = {
     h: 2,
 
     get lanes() {
-        return archetypes.Initialization.data.get(0).lanes
+        return archetypes.Initialization.import.get(0).lanes
     },
 
     get count() {

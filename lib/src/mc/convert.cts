@@ -44,7 +44,7 @@ export const mcToLevelData = (mc: MC, offset = 0): LevelData => {
                     if (!entity) throw new Error('Unexpected missing entity')
 
                     const ref = getRef()
-                    entity.ref = ref
+                    entity.name = ref
 
                     return { name, ref }
                 }),

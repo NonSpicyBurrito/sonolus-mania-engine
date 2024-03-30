@@ -7,7 +7,7 @@ import { skin } from '../skin.mjs'
 import { archetypes } from './index.mjs'
 
 export class Initialization extends Archetype {
-    data = this.defineData({
+    import = this.defineImport({
         lanes: { name: 'lanes', type: Number },
     })
 
@@ -19,7 +19,9 @@ export class Initialization extends Archetype {
 
         const w =
             options.stageSize *
-            (options.lockStageAspectRatio ? rotatedScreen.h / 4 : rotatedScreen.w / this.data.lanes)
+            (options.lockStageAspectRatio
+                ? rotatedScreen.h / 4
+                : rotatedScreen.w / this.import.lanes)
 
         const t = rotatedScreen.t + w / 2
         const b = Math.lerp(rotatedScreen.t, rotatedScreen.b, options.judgeLinePosition)

@@ -2,7 +2,7 @@ import { panel } from '../panel.mjs'
 import { skin } from '../skin.mjs'
 
 export class Initialization extends Archetype {
-    data = this.defineData({
+    import = this.defineImport({
         lanes: { name: 'lanes', type: Number },
     })
 

@@ -12,7 +12,7 @@ export abstract class Note extends Archetype {
 
     abstract effect: ParticleEffect
 
-    data = this.defineData({
+    import = this.defineImport({
         beat: { name: EngineArchetypeDataName.Beat, type: Number },
     })
 
@@ -39,7 +39,7 @@ export abstract class Note extends Archetype {
     }
 
     preprocess() {
-        this.targetTime = bpmChanges.at(this.data.beat).time
+        this.targetTime = bpmChanges.at(this.import.beat).time
 
         this.visualTime.max = this.targetTime
         this.visualTime.min = this.visualTime.max - note.duration

@@ -16,7 +16,7 @@ export abstract class Note extends Archetype {
 
     abstract effect: ParticleEffect
 
-    data = this.defineData({
+    import = this.defineImport({
         beat: { name: EngineArchetypeDataName.Beat, type: Number },
     })
 
@@ -67,7 +67,7 @@ export abstract class Note extends Archetype {
     }
 
     preprocess() {
-        this.targetTime = bpmChanges.at(this.data.beat).time
+        this.targetTime = bpmChanges.at(this.import.beat).time
 
         this.scheduleSFXTime = getScheduleSFXTime(this.targetTime)
 
@@ -168,7 +168,7 @@ export abstract class Note extends Archetype {
     }
 
     get lanes() {
-        return archetypes.Initialization.data.get(0).lanes
+        return archetypes.Initialization.import.get(0).lanes
     }
 
     getHitboxX(offset: number) {

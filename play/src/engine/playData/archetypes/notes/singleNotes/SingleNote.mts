@@ -4,14 +4,14 @@ import { isUsed, markAsUsed } from '../../InputManager.mjs'
 import { Note } from '../Note.mjs'
 
 export abstract class SingleNote extends Note {
-    singleData = this.defineData({
+    singleImport = this.defineImport({
         lane: { name: 'lane', type: Number },
     })
 
     preprocess() {
         super.preprocess()
 
-        if (options.mirror !== options.stageDirection > 1) this.singleData.lane *= -1
+        if (options.mirror !== options.stageDirection > 1) this.singleImport.lane *= -1
 
         this.spawnTime = Math.min(this.scheduleSFXTime, this.visualTime.min)
     }
@@ -30,7 +30,7 @@ export abstract class SingleNote extends Note {
     }
 
     get lane() {
-        return this.singleData.lane
+        return this.singleImport.lane
     }
 
     complete(touch: Touch) {

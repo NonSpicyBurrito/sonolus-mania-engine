@@ -8,15 +8,15 @@ export class HoldEndNote extends Note {
 
     effect = particle.effects.holdNote
 
-    holdData = this.defineData({
+    holdImport = this.defineImport({
         prevRef: { name: 'prev', type: Number },
     })
 
-    get prevSingleData() {
-        return archetypes.HoldStartNote.singleData.get(this.holdData.prevRef)
+    get prevSingleImport() {
+        return archetypes.HoldStartNote.singleImport.get(this.holdImport.prevRef)
     }
 
     get lane() {
-        return this.prevSingleData.lane
+        return this.prevSingleImport.lane
     }
 }

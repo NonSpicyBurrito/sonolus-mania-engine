@@ -19,7 +19,7 @@ export class Stage extends Archetype {
     }
 
     get lanes() {
-        return archetypes.Initialization.data.get(0).lanes
+        return archetypes.Initialization.import.get(0).lanes
     }
 
     drawStage() {
