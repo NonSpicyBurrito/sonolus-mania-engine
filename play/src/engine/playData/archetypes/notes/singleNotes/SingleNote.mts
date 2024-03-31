@@ -1,5 +1,5 @@
+import { windows } from '../../../../../../../shared/src/engine/data/windows.mjs'
 import { options } from '../../../../configuration/options.mjs'
-import { windows } from '../../../windows.mjs'
 import { isUsed, markAsUsed } from '../../InputManager.mjs'
 import { Note } from '../Note.mjs'
 

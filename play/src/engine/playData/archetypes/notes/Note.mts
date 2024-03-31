@@ -1,4 +1,5 @@
 import { EngineArchetypeDataName } from 'sonolus-core'
+import { windows } from '../../../../../../shared/src/engine/data/windows.mjs'
 import { options } from '../../../configuration/options.mjs'
 import { effect, getScheduleSFXTime, sfxDistance } from '../../effect.mjs'
 import { hitboxLayout } from '../../hitbox.mjs'
@@ -6,7 +7,6 @@ import { note, noteLayout } from '../../note.mjs'
 import { hitEffectLayout, particle } from '../../particle.mjs'
 import { scaledScreen } from '../../scaledScreen.mjs'
 import { getZ, layer } from '../../skin.mjs'
-import { windows } from '../../windows.mjs'
 import { archetypes } from '../index.mjs'
 
 export abstract class Note extends Archetype {

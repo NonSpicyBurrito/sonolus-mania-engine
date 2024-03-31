@@ -1,3 +1,4 @@
+import { buckets } from '../../buckets.mjs'
 import { particle } from '../../particle.mjs'
 import { skin } from '../../skin.mjs'
 import { archetypes } from '../index.mjs'
@@ -7,6 +8,8 @@ export class HoldEndNote extends Note {
     sprite = skin.sprites.holdEndNote
 
     effect = particle.effects.holdNote
+
+    bucket = buckets.holdEndNote
 
     holdImport = this.defineImport({
         prevRef: { name: 'prev', type: Number },

@@ -1,4 +1,5 @@
 import { EngineArchetypeDataName } from 'sonolus-core'
+import { windows } from '../../../../../../shared/src/engine/data/windows.mjs'
 import { options } from '../../../configuration/options.mjs'
 import { effect, sfxDistance } from '../../effect.mjs'
 import { note, noteLayout } from '../../note.mjs'
@@ -35,7 +36,20 @@ export abstract class Note extends Archetype {
     layout = this.entityMemory(Rect)
     z = this.entityMemory(Number)
 
+    abstract bucket: Bucket
+
     globalPreprocess() {
+        const toMs = (window: JudgmentWindow) => ({
+            min: window.min * 1000,
+            max: window.max * 1000,
+        })
+
+        this.bucket.set({
+            perfect: toMs(windows.perfect),
+            great: toMs(windows.great),
+            good: toMs(windows.good),
+        })
+
         this.life.set({
             perfect: 0,
             great: 0,
@@ -61,6 +75,13 @@ export abstract class Note extends Archetype {
         }
 
         this.result.time = this.targetTime
+
+        if (!replay.isReplay) {
+            this.result.bucket.index = this.bucket.index
+        } else if (this.import.judgment) {
+            this.result.bucket.index = this.bucket.index
+            this.result.bucket.value = this.import.accuracy * 1000
+        }
     }
 
     spawnTime() {
