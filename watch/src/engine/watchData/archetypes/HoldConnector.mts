@@ -21,8 +21,6 @@ export class HoldConnector extends Archetype {
         time: Number,
     })
 
-    scheduleSFXTime = this.entityMemory(Number)
-
     visualTime = this.entityMemory({
         min: Number,
         max: Number,
@@ -50,15 +48,23 @@ export class HoldConnector extends Archetype {
         this.visualTime.min = this.head.time - note.duration
         this.visualTime.max = this.tail.time
 
-        if (options.sfxEnabled) this.scheduleSFX()
+        if (options.sfxEnabled) {
+            if (replay.isReplay) {
+                this.scheduleReplaySFX()
+            } else {
+                this.scheduleSFX()
+            }
+        }
     }
 
     spawnTime() {
         return this.visualTime.min
     }
 
-    despawnTime() {
-        return this.visualTime.max
+    despawnTime(): number {
+        return replay.isReplay
+            ? Math.min(this.tailSharedMemory.despawnTime, this.tail.time)
+            : this.tail.time
     }
 
     initialize() {
@@ -77,9 +83,11 @@ export class HoldConnector extends Archetype {
 
         if (time.now < this.head.time) return
 
-        if (this.shouldSpawnHoldEffect && !this.effectInstanceId) this.spawnHoldEffect()
-
         this.renderSlide()
+
+        if (time.now < this.headSharedMemory.despawnTime) return
+
+        if (this.shouldSpawnHoldEffect && !this.effectInstanceId) this.spawnHoldEffect()
     }
 
     terminate() {
@@ -98,12 +106,20 @@ export class HoldConnector extends Archetype {
         return archetypes.HoldStartNote.singleImport.get(this.headRef)
     }
 
+    get headSharedMemory() {
+        return archetypes.HoldEndNote.sharedMemory.get(this.headRef)
+    }
+
     get tailImport() {
         return archetypes.HoldEndNote.import.get(this.import.tailRef)
     }
 
     get tailHoldImport() {
         return archetypes.HoldEndNote.holdImport.get(this.import.tailRef)
+    }
+
+    get tailSharedMemory() {
+        return archetypes.HoldEndNote.sharedMemory.get(this.import.tailRef)
     }
 
     get shouldSpawnHoldEffect() {
@@ -128,6 +144,17 @@ export class HoldConnector extends Archetype {
     scheduleSFX() {
         const id = effect.clips.hold.scheduleLoop(this.head.time)
         effect.clips.scheduleStopLoop(id, this.tail.time)
+    }
+
+    scheduleReplaySFX() {
+        if (!this.headImport.judgment) return
+
+        const start = Math.max(this.head.time, this.headSharedMemory.despawnTime)
+        const end = Math.min(this.tail.time, this.tailSharedMemory.despawnTime)
+        if (start >= end) return
+
+        const id = effect.clips.hold.scheduleLoop(start)
+        effect.clips.scheduleStopLoop(id, end)
     }
 
     spawnHoldEffect() {

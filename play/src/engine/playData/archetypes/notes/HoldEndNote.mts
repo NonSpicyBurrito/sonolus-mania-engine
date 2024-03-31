@@ -16,6 +16,10 @@ export class HoldEndNote extends Note {
         prevRef: { name: 'prev', type: Number },
     })
 
+    export = this.defineExport({
+        accuracyDiff: { name: 'accuracyDiff', type: Number },
+    })
+
     preprocess() {
         super.preprocess()
 
@@ -37,7 +41,7 @@ export class HoldEndNote extends Note {
             if (time.now >= this.inputTime.min && this.hitbox.contains(touch.position)) {
                 this.complete(touch.t)
             } else {
-                this.despawn = true
+                this.incomplete(touch.t)
             }
             return
         }
@@ -45,7 +49,7 @@ export class HoldEndNote extends Note {
         if (time.now >= this.inputTime.min) {
             this.complete(time.now)
         } else {
-            this.despawn = true
+            this.incomplete(time.now)
         }
     }
 
@@ -87,6 +91,12 @@ export class HoldEndNote extends Note {
         this.result.bucket.value = this.result.accuracy * 1000
 
         this.playHitEffects()
+
+        this.despawn = true
+    }
+
+    incomplete(hitTime: number) {
+        this.export('accuracyDiff', hitTime - this.result.accuracy - this.targetTime)
 
         this.despawn = true
     }
