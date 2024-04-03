@@ -1,4 +1,4 @@
-import { EngineArchetypeDataName } from 'sonolus-core'
+import { EngineArchetypeDataName } from '@sonolus/core'
 import { windows } from '../../../../../../shared/src/engine/data/windows.mjs'
 import { options } from '../../../configuration/options.mjs'
 import { effect, sfxDistance } from '../../effect.mjs'

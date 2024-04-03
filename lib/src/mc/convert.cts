@@ -3,7 +3,7 @@ import {
     EngineArchetypeName,
     LevelData,
     LevelDataEntity,
-} from 'sonolus-core'
+} from '@sonolus/core'
 import { MC, MCBpmChangeObject, MCHoldNote, MCObject, MCTapNote } from './index.cjs'
 
 type Handler<T extends MCObject> = (object: T) => {
