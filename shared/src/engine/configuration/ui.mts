@@ -1,4 +1,4 @@
-import { EngineConfigurationUI } from 'sonolus-core'
+import { EngineConfigurationUI } from '@sonolus/core'
 
 export const ui: EngineConfigurationUI = {
     scope: 'Mania',
@@ -41,13 +41,13 @@ export const ui: EngineConfigurationUI = {
             from: 1,
             to: 1,
             duration: 0,
-            ease: 'None',
+            ease: 'none',
         },
         alpha: {
             from: 1,
             to: 0,
             duration: 0.2,
-            ease: 'InCubic',
+            ease: 'inCubic',
         },
     },
     comboAnimation: {
@@ -55,13 +55,13 @@ export const ui: EngineConfigurationUI = {
             from: 1.2,
             to: 1,
             duration: 0.2,
-            ease: 'OutCubic',
+            ease: 'outCubic',
         },
         alpha: {
             from: 1,
             to: 1,
             duration: 0,
-            ease: 'None',
+            ease: 'none',
         },
     },
     judgmentErrorStyle: 'arrowDown',

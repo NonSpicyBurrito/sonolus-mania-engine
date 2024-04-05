@@ -1,4 +1,5 @@
-import { EngineArchetypeDataName } from 'sonolus-core'
+import { EngineArchetypeDataName } from '@sonolus/core'
+import { windows } from '../../../../../../shared/src/engine/data/windows.mjs'
 import { options } from '../../../configuration/options.mjs'
 import { effect, getScheduleSFXTime, sfxDistance } from '../../effect.mjs'
 import { hitboxLayout } from '../../hitbox.mjs'
@@ -6,7 +7,6 @@ import { note, noteLayout } from '../../note.mjs'
 import { hitEffectLayout, particle } from '../../particle.mjs'
 import { scaledScreen } from '../../scaledScreen.mjs'
 import { getZ, layer } from '../../skin.mjs'
-import { windows } from '../../windows.mjs'
 import { archetypes } from '../index.mjs'
 
 export abstract class Note extends Archetype {
@@ -16,7 +16,7 @@ export abstract class Note extends Archetype {
 
     abstract effect: ParticleEffect
 
-    data = this.defineData({
+    import = this.defineImport({
         beat: { name: EngineArchetypeDataName.Beat, type: Number },
     })
 
@@ -67,7 +67,7 @@ export abstract class Note extends Archetype {
     }
 
     preprocess() {
-        this.targetTime = bpmChanges.at(this.data.beat).time
+        this.targetTime = bpmChanges.at(this.import.beat).time
 
         this.scheduleSFXTime = getScheduleSFXTime(this.targetTime)
 
@@ -168,7 +168,7 @@ export abstract class Note extends Archetype {
     }
 
     get lanes() {
-        return archetypes.Initialization.data.get(0).lanes
+        return archetypes.Initialization.import.get(0).lanes
     }
 
     getHitboxX(offset: number) {

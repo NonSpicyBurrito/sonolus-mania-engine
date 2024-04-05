@@ -6,7 +6,7 @@ import { getZ, layer, skin } from '../skin.mjs'
 import { archetypes } from './index.mjs'
 
 export class HoldConnector extends Archetype {
-    data = this.defineData({
+    import = this.defineImport({
         tailRef: { name: 'tail', type: Number },
     })
 
@@ -20,8 +20,6 @@ export class HoldConnector extends Archetype {
     tail = this.entityMemory({
         time: Number,
     })
-
-    scheduleSFXTime = this.entityMemory(Number)
 
     visualTime = this.entityMemory({
         min: Number,
@@ -44,21 +42,29 @@ export class HoldConnector extends Archetype {
     effectInstanceId = this.entityMemory(ParticleEffectInstanceId)
 
     preprocess() {
-        this.head.time = bpmChanges.at(this.headData.beat).time
-        this.tail.time = bpmChanges.at(this.tailData.beat).time
+        this.head.time = bpmChanges.at(this.headImport.beat).time
+        this.tail.time = bpmChanges.at(this.tailImport.beat).time
 
         this.visualTime.min = this.head.time - note.duration
         this.visualTime.max = this.tail.time
 
-        if (options.sfxEnabled) this.scheduleSFX()
+        if (options.sfxEnabled) {
+            if (replay.isReplay) {
+                this.scheduleReplaySFX()
+            } else {
+                this.scheduleSFX()
+            }
+        }
     }
 
     spawnTime() {
         return this.visualTime.min
     }
 
-    despawnTime() {
-        return this.visualTime.max
+    despawnTime(): number {
+        return replay.isReplay
+            ? Math.min(this.tailSharedMemory.despawnTime, this.tail.time)
+            : this.tail.time
     }
 
     initialize() {
@@ -77,9 +83,11 @@ export class HoldConnector extends Archetype {
 
         if (time.now < this.head.time) return
 
-        if (this.shouldSpawnHoldEffect && !this.effectInstanceId) this.spawnHoldEffect()
-
         this.renderSlide()
+
+        if (time.now < this.headSharedMemory.despawnTime) return
+
+        if (this.shouldSpawnHoldEffect && !this.effectInstanceId) this.spawnHoldEffect()
     }
 
     terminate() {
@@ -87,23 +95,31 @@ export class HoldConnector extends Archetype {
     }
 
     get headRef() {
-        return this.tailHoldData.prevRef
+        return this.tailHoldImport.prevRef
     }
 
-    get headData() {
-        return archetypes.HoldStartNote.data.get(this.headRef)
+    get headImport() {
+        return archetypes.HoldStartNote.import.get(this.headRef)
     }
 
-    get headSingleData() {
-        return archetypes.HoldStartNote.singleData.get(this.headRef)
+    get headSingleImport() {
+        return archetypes.HoldStartNote.singleImport.get(this.headRef)
     }
 
-    get tailData() {
-        return archetypes.HoldEndNote.data.get(this.data.tailRef)
+    get headSharedMemory() {
+        return archetypes.HoldEndNote.sharedMemory.get(this.headRef)
     }
 
-    get tailHoldData() {
-        return archetypes.HoldEndNote.holdData.get(this.data.tailRef)
+    get tailImport() {
+        return archetypes.HoldEndNote.import.get(this.import.tailRef)
+    }
+
+    get tailHoldImport() {
+        return archetypes.HoldEndNote.holdImport.get(this.import.tailRef)
+    }
+
+    get tailSharedMemory() {
+        return archetypes.HoldEndNote.sharedMemory.get(this.import.tailRef)
     }
 
     get shouldSpawnHoldEffect() {
@@ -111,7 +127,7 @@ export class HoldConnector extends Archetype {
     }
 
     globalInitialize() {
-        this.head.lane = this.headSingleData.lane
+        this.head.lane = this.headSingleImport.lane
 
         if (options.hidden > 0)
             this.visualTime.hidden = this.tail.time - note.duration * options.hidden
@@ -128,6 +144,17 @@ export class HoldConnector extends Archetype {
     scheduleSFX() {
         const id = effect.clips.hold.scheduleLoop(this.head.time)
         effect.clips.scheduleStopLoop(id, this.tail.time)
+    }
+
+    scheduleReplaySFX() {
+        if (!this.headImport.judgment) return
+
+        const start = Math.max(this.head.time, this.headSharedMemory.despawnTime)
+        const end = Math.min(this.tail.time, this.tailSharedMemory.despawnTime)
+        if (start >= end) return
+
+        const id = effect.clips.hold.scheduleLoop(start)
+        effect.clips.scheduleStopLoop(id, end)
     }
 
     spawnHoldEffect() {

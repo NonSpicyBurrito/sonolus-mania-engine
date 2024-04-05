@@ -5,15 +5,15 @@ import { Note } from './Note.mjs'
 export class HoldEndNote extends Note {
     sprite = skin.sprites.holdEndNote
 
-    holdData = this.defineData({
+    holdImport = this.defineImport({
         prevRef: { name: 'prev', type: Number },
     })
 
-    get prevSingleData() {
-        return archetypes.HoldStartNote.singleData.get(this.holdData.prevRef)
+    get prevSingleImport() {
+        return archetypes.HoldStartNote.singleImport.get(this.holdImport.prevRef)
     }
 
     get lane() {
-        return this.prevSingleData.lane
+        return this.prevSingleImport.lane
     }
 }

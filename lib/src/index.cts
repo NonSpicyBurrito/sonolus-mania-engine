@@ -1,15 +1,15 @@
+import { DatabaseEngineItem } from '@sonolus/core'
 import { resolve } from 'node:path'
-import { EngineInfo } from 'sonolus-core'
 
 export { mcToLevelData } from './mc/convert.cjs'
 export * from './mc/index.cjs'
 export { osuToMC } from './osu/convert.cjs'
 
-export const version = '1.1.1'
+export const version = '1.2.0'
 
-export const engineInfo = {
+export const databaseEngineItem = {
     name: 'mania',
-    version: 11,
+    version: 12,
     title: {
         en: 'Mania',
     },
@@ -30,7 +30,7 @@ export const engineInfo = {
             'https://github.com/NonSpicyBurrito/sonolus-mania-engine',
         ].join('\n'),
     },
-} as const satisfies Partial<EngineInfo>
+} as const satisfies Partial<DatabaseEngineItem>
 
 export const engineConfigurationPath = resolve(__dirname, 'EngineConfiguration')
 export const enginePlayDataPath = resolve(__dirname, 'EnginePlayData')

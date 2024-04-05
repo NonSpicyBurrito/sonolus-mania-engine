@@ -1,7 +1,7 @@
+import { windows } from '../../../../../../shared/src/engine/data/windows.mjs'
 import { buckets } from '../../buckets.mjs'
 import { particle } from '../../particle.mjs'
 import { skin } from '../../skin.mjs'
-import { windows } from '../../windows.mjs'
 import { archetypes } from '../index.mjs'
 import { Note } from './Note.mjs'
 
@@ -12,15 +12,19 @@ export class HoldEndNote extends Note {
 
     bucket = buckets.holdEndNote
 
-    holdData = this.defineData({
+    holdImport = this.defineImport({
         prevRef: { name: 'prev', type: Number },
+    })
+
+    export = this.defineExport({
+        accuracyDiff: { name: 'accuracyDiff', type: Number },
     })
 
     preprocess() {
         super.preprocess()
 
         const minPrevInputTime =
-            bpmChanges.at(this.prevData.beat).time + windows.good.min + input.offset
+            bpmChanges.at(this.prevImport.beat).time + windows.good.min + input.offset
 
         this.spawnTime = Math.min(this.scheduleSFXTime, this.visualTime.min, minPrevInputTime)
     }
@@ -37,7 +41,7 @@ export class HoldEndNote extends Note {
             if (time.now >= this.inputTime.min && this.hitbox.contains(touch.position)) {
                 this.complete(touch.t)
             } else {
-                this.despawn = true
+                this.incomplete(touch.t)
             }
             return
         }
@@ -45,7 +49,7 @@ export class HoldEndNote extends Note {
         if (time.now >= this.inputTime.min) {
             this.complete(time.now)
         } else {
-            this.despawn = true
+            this.incomplete(time.now)
         }
     }
 
@@ -60,23 +64,23 @@ export class HoldEndNote extends Note {
     }
 
     get prevInfo() {
-        return entityInfos.get(this.holdData.prevRef)
+        return entityInfos.get(this.holdImport.prevRef)
     }
 
-    get prevData() {
-        return archetypes.HoldStartNote.data.get(this.holdData.prevRef)
+    get prevImport() {
+        return archetypes.HoldStartNote.import.get(this.holdImport.prevRef)
     }
 
-    get prevSingleData() {
-        return archetypes.HoldStartNote.singleData.get(this.holdData.prevRef)
+    get prevSingleImport() {
+        return archetypes.HoldStartNote.singleImport.get(this.holdImport.prevRef)
     }
 
     get prevSharedMemory() {
-        return archetypes.HoldStartNote.sharedMemory.get(this.holdData.prevRef)
+        return archetypes.HoldStartNote.sharedMemory.get(this.holdImport.prevRef)
     }
 
     get lane() {
-        return this.prevSingleData.lane
+        return this.prevSingleImport.lane
     }
 
     complete(hitTime: number) {
@@ -87,6 +91,12 @@ export class HoldEndNote extends Note {
         this.result.bucket.value = this.result.accuracy * 1000
 
         this.playHitEffects()
+
+        this.despawn = true
+    }
+
+    incomplete(hitTime: number) {
+        this.export('accuracyDiff', hitTime - this.result.accuracy - this.targetTime)
 
         this.despawn = true
     }

@@ -6,7 +6,7 @@ import { getZ, layer, skin } from '../skin.mjs'
 import { archetypes } from './index.mjs'
 
 export class HoldConnector extends Archetype {
-    data = this.defineData({
+    import = this.defineImport({
         tailRef: { name: 'tail', type: Number },
     })
 
@@ -48,7 +48,7 @@ export class HoldConnector extends Archetype {
     effectInstanceId = this.entityMemory(ParticleEffectInstanceId)
 
     preprocess() {
-        this.head.time = bpmChanges.at(this.headData.beat).time
+        this.head.time = bpmChanges.at(this.headImport.beat).time
 
         this.scheduleSFXTime = getScheduleSFXTime(this.head.time)
 
@@ -66,9 +66,9 @@ export class HoldConnector extends Archetype {
     }
 
     initialize() {
-        this.head.lane = this.headSingleData.lane
+        this.head.lane = this.headSingleImport.lane
 
-        this.tail.time = bpmChanges.at(this.tailData.beat).time
+        this.tail.time = bpmChanges.at(this.tailImport.beat).time
 
         this.visualTime.max = this.tail.time
 
@@ -115,19 +115,19 @@ export class HoldConnector extends Archetype {
     }
 
     get headRef() {
-        return this.tailHoldData.prevRef
+        return this.tailHoldImport.prevRef
     }
 
     get headInfo() {
         return entityInfos.get(this.headRef)
     }
 
-    get headData() {
-        return archetypes.HoldStartNote.data.get(this.headRef)
+    get headImport() {
+        return archetypes.HoldStartNote.import.get(this.headRef)
     }
 
-    get headSingleData() {
-        return archetypes.HoldStartNote.singleData.get(this.headRef)
+    get headSingleImport() {
+        return archetypes.HoldStartNote.singleImport.get(this.headRef)
     }
 
     get headSharedMemory() {
@@ -135,15 +135,15 @@ export class HoldConnector extends Archetype {
     }
 
     get tailInfo() {
-        return entityInfos.get(this.data.tailRef)
+        return entityInfos.get(this.import.tailRef)
     }
 
-    get tailData() {
-        return archetypes.HoldEndNote.data.get(this.data.tailRef)
+    get tailImport() {
+        return archetypes.HoldEndNote.import.get(this.import.tailRef)
     }
 
-    get tailHoldData() {
-        return archetypes.HoldEndNote.holdData.get(this.data.tailRef)
+    get tailHoldImport() {
+        return archetypes.HoldEndNote.holdImport.get(this.import.tailRef)
     }
 
     get shouldScheduleSFX() {

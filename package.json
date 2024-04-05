@@ -1,6 +1,6 @@
 {
   "name": "sonolus-mania-engine",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "description": "A Beatmania inspired engine in Sonolus",
   "author": "NonSpicyBurrito",
   "repository": "github:NonSpicyBurrito/sonolus-mania-engine",
@@ -21,9 +21,10 @@
     "build": "tsc -p ./lib && sonolus-cli --build ./play && sonolus-cli --build ./watch && sonolus-cli --build ./preview && sonolus-cli --build ./tutorial && node ./lib/build.mjs"
   },
   "dependencies": {
-    "sonolus-core": "~7.4.1"
+    "@sonolus/core": "~7.5.0"
   },
   "devDependencies": {
+    "@sonolus/sonolus.js": "~9.4.0",
     "@types/node": "^16.18.68",
     "@typescript-eslint/eslint-plugin": "^6.14.0",
     "@typescript-eslint/parser": "^6.14.0",
@@ -31,7 +32,6 @@
     "eslint-config-prettier": "^9.1.0",
     "prettier": "^3.1.1",
     "prettier-plugin-organize-imports": "^3.2.4",
-    "sonolus.js": "~9.3.1",
     "typescript": "~5.3.3"
   }
 }
