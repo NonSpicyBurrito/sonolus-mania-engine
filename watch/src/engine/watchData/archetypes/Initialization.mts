@@ -1,4 +1,3 @@
-import { bounds } from '../../../../../shared/src/engine/data/utils.mjs'
 import { options } from '../../configuration/options.mjs'
 import { note } from '../note.mjs'
 import { particle } from '../particle.mjs'
@@ -15,7 +14,7 @@ export class Initialization extends Archetype {
         const angle = (options.stageDirection * Math.PI) / 2
         const inverted = options.stageDirection > 1
 
-        const rotatedScreen = bounds(screen.rect.toQuad().rotate(angle))
+        const rotatedScreen = screen.rect.toQuad().rotate(angle).aabb
 
         const w =
             options.stageSize *
