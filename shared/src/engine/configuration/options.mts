@@ -59,7 +59,7 @@ export const optionsDefinition = {
         name: Text.NoteSize,
         scope: 'Mania',
         type: 'slider',
-        def: 0.5,
+        def: 1,
         min: 0.1,
         max: 2,
         step: 0.05,
