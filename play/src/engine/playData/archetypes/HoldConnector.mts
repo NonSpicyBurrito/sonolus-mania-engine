@@ -1,5 +1,5 @@
 import { options } from '../../configuration/options.mjs'
-import { effect, getScheduleSFXTime } from '../effect.mjs'
+import { effect } from '../effect.mjs'
 import { note, noteLayout } from '../note.mjs'
 import { holdEffectLayout, particle } from '../particle.mjs'
 import { getZ, layer, skin } from '../skin.mjs'
@@ -21,15 +21,11 @@ export class HoldConnector extends Archetype {
 
     spawnTime = this.entityMemory(Number)
 
-    scheduleSFXTime = this.entityMemory(Number)
-
     visualTime = this.entityMemory({
         min: Number,
         max: Number,
         hidden: Number,
     })
-
-    hasSFXScheduled = this.entityMemory(Boolean)
 
     connector = this.entityMemory({
         l: Number,
@@ -49,12 +45,13 @@ export class HoldConnector extends Archetype {
 
     preprocess() {
         this.head.time = bpmChanges.at(this.headImport.beat).time
-
-        this.scheduleSFXTime = getScheduleSFXTime(this.head.time)
+        this.tail.time = bpmChanges.at(this.tailImport.beat).time
 
         this.visualTime.min = this.head.time - note.duration
 
-        this.spawnTime = Math.min(this.scheduleSFXTime, this.visualTime.min)
+        this.spawnTime = this.visualTime.min
+
+        if (this.shouldScheduleSFX) this.scheduleSFX()
     }
 
     spawnOrder() {
@@ -67,8 +64,6 @@ export class HoldConnector extends Archetype {
 
     initialize() {
         this.head.lane = this.headSingleImport.lane
-
-        this.tail.time = bpmChanges.at(this.tailImport.beat).time
 
         this.visualTime.max = this.tail.time
 
@@ -89,9 +84,6 @@ export class HoldConnector extends Archetype {
             this.despawn = true
             return
         }
-
-        if (this.shouldScheduleSFX && !this.hasSFXScheduled && time.now >= this.scheduleSFXTime)
-            this.scheduleSFX()
 
         if (this.shouldPlaySFX && !this.sfxInstanceId && this.isActive) this.playSFX()
 
@@ -171,8 +163,6 @@ export class HoldConnector extends Archetype {
     scheduleSFX() {
         const id = effect.clips.hold.scheduleLoop(this.head.time)
         effect.clips.scheduleStopLoop(id, this.tail.time)
-
-        this.hasSFXScheduled = true
     }
 
     playSFX() {

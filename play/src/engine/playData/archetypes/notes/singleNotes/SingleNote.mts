@@ -13,7 +13,7 @@ export abstract class SingleNote extends Note {
 
         if (options.mirror !== options.stageDirection > 1) this.singleImport.lane *= -1
 
-        this.spawnTime = Math.min(this.scheduleSFXTime, this.visualTime.min)
+        this.spawnTime = this.visualTime.min
     }
 
     touch() {
