@@ -1,7 +1,7 @@
 import { EngineArchetypeDataName } from '@sonolus/core'
 import { windows } from '../../../../../../shared/src/engine/data/windows.mjs'
 import { options } from '../../../configuration/options.mjs'
-import { effect, getScheduleSFXTime, sfxDistance } from '../../effect.mjs'
+import { effect, sfxDistance } from '../../effect.mjs'
 import { hitboxLayout } from '../../hitbox.mjs'
 import { note, noteLayout } from '../../note.mjs'
 import { hitEffectLayout, particle } from '../../particle.mjs'
@@ -24,15 +24,11 @@ export abstract class Note extends Archetype {
 
     spawnTime = this.entityMemory(Number)
 
-    scheduleSFXTime = this.entityMemory(Number)
-
     visualTime = this.entityMemory({
         min: Number,
         max: Number,
         hidden: Number,
     })
-
-    hasSFXScheduled = this.entityMemory(Boolean)
 
     inputTime = this.entityMemory({
         min: Number,
@@ -69,10 +65,10 @@ export abstract class Note extends Archetype {
     preprocess() {
         this.targetTime = bpmChanges.at(this.import.beat).time
 
-        this.scheduleSFXTime = getScheduleSFXTime(this.targetTime)
-
         this.visualTime.max = this.targetTime
         this.visualTime.min = this.visualTime.max - note.duration
+
+        if (this.shouldScheduleSFX) this.scheduleSFX()
     }
 
     spawnOrder() {
@@ -108,9 +104,6 @@ export abstract class Note extends Archetype {
         if (time.now > this.inputTime.max) this.despawn = true
         if (this.despawn) return
 
-        if (this.shouldScheduleSFX && !this.hasSFXScheduled && time.now >= this.scheduleSFXTime)
-            this.scheduleSFX()
-
         if (time.now < this.visualTime.min) return
         if (options.hidden > 0 && time.now > this.visualTime.hidden) return
 
@@ -128,8 +121,6 @@ export abstract class Note extends Archetype {
     }
 
     scheduleSFX() {
-        this.hasSFXScheduled = true
-
         effect.clips.perfect.schedule(this.targetTime, sfxDistance)
     }
 

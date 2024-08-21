@@ -26,7 +26,7 @@ export class HoldEndNote extends Note {
         const minPrevInputTime =
             bpmChanges.at(this.prevImport.beat).time + windows.good.min + input.offset
 
-        this.spawnTime = Math.min(this.scheduleSFXTime, this.visualTime.min, minPrevInputTime)
+        this.spawnTime = Math.min(this.visualTime.min, minPrevInputTime)
     }
 
     touch() {
