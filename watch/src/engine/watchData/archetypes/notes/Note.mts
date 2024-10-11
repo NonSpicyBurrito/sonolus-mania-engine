@@ -39,7 +39,7 @@ export abstract class Note extends Archetype {
     abstract bucket: Bucket
 
     globalPreprocess() {
-        const toMs = (window: JudgmentWindow) => ({
+        const toMs = (window: RangeLike) => ({
             min: window.min * 1000,
             max: window.max * 1000,
         })
