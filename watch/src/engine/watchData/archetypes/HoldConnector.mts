@@ -21,11 +21,8 @@ export class HoldConnector extends Archetype {
         time: Number,
     })
 
-    visualTime = this.entityMemory({
-        min: Number,
-        max: Number,
-        hidden: Number,
-    })
+    visualTime = this.entityMemory(Range)
+    hiddenTime = this.entityMemory(Number)
 
     connector = this.entityMemory({
         l: Number,
@@ -129,8 +126,7 @@ export class HoldConnector extends Archetype {
     globalInitialize() {
         this.head.lane = this.headSingleImport.lane
 
-        if (options.hidden > 0)
-            this.visualTime.hidden = this.tail.time - note.duration * options.hidden
+        if (options.hidden > 0) this.hiddenTime = this.tail.time - note.duration * options.hidden
 
         this.connector.l = this.head.lane - 0.5 * options.noteSize
         this.connector.r = this.head.lane + 0.5 * options.noteSize
@@ -170,7 +166,7 @@ export class HoldConnector extends Archetype {
     }
 
     renderConnector() {
-        if (options.hidden > 0 && time.now > this.visualTime.hidden) return
+        if (options.hidden > 0 && time.now > this.hiddenTime) return
 
         const hiddenDuration = options.hidden > 0 ? note.duration * options.hidden : 0
 

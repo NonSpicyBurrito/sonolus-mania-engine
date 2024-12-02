@@ -1,5 +1,5 @@
 import { EngineArchetypeDataName } from '@sonolus/core'
-import { windows } from '../../../../../../shared/src/engine/data/windows.mjs'
+import { bucketWindows, windows } from '../../../../../../shared/src/engine/data/windows.mjs'
 import { options } from '../../../configuration/options.mjs'
 import { effect, sfxDistance } from '../../effect.mjs'
 import { hitboxLayout } from '../../hitbox.mjs'
@@ -24,16 +24,10 @@ export abstract class Note extends Archetype {
 
     spawnTime = this.entityMemory(Number)
 
-    visualTime = this.entityMemory({
-        min: Number,
-        max: Number,
-        hidden: Number,
-    })
+    visualTime = this.entityMemory(Range)
+    hiddenTime = this.entityMemory(Number)
 
-    inputTime = this.entityMemory({
-        min: Number,
-        max: Number,
-    })
+    inputTime = this.entityMemory(Range)
 
     hitbox = this.entityMemory(Rect)
 
@@ -43,16 +37,7 @@ export abstract class Note extends Archetype {
     abstract bucket: Bucket
 
     globalPreprocess() {
-        const toMs = (window: RangeLike) => ({
-            min: window.min * 1000,
-            max: window.max * 1000,
-        })
-
-        this.bucket.set({
-            perfect: toMs(windows.perfect),
-            great: toMs(windows.great),
-            good: toMs(windows.good),
-        })
+        this.bucket.set(bucketWindows)
 
         this.life.set({
             perfect: 0,
@@ -65,10 +50,9 @@ export abstract class Note extends Archetype {
     preprocess() {
         this.targetTime = bpmChanges.at(this.import.beat).time
 
-        this.visualTime.max = this.targetTime
-        this.visualTime.min = this.visualTime.max - note.duration
+        this.visualTime.copyFrom(Range.l.mul(note.duration).add(this.targetTime))
 
-        this.inputTime.min = this.targetTime + windows.good.min + input.offset
+        this.inputTime.copyFrom(windows.good.add(this.targetTime).add(input.offset))
 
         if (this.shouldScheduleSFX) this.scheduleSFX()
     }
@@ -83,9 +67,7 @@ export abstract class Note extends Archetype {
 
     initialize() {
         if (options.hidden > 0)
-            this.visualTime.hidden = this.visualTime.max - note.duration * options.hidden
-
-        this.inputTime.max = this.targetTime + windows.good.max + input.offset
+            this.hiddenTime = this.visualTime.max - note.duration * options.hidden
 
         noteLayout(this.lane, 0).copyTo(this.layout)
 
@@ -106,7 +88,7 @@ export abstract class Note extends Archetype {
         if (this.despawn) return
 
         if (time.now < this.visualTime.min) return
-        if (options.hidden > 0 && time.now > this.visualTime.hidden) return
+        if (options.hidden > 0 && time.now > this.hiddenTime) return
 
         this.render()
     }
