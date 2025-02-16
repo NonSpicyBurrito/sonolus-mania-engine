@@ -1,3 +1,4 @@
+import { options } from '../configuration/options.mjs'
 import { archetypes } from './archetypes/index.mjs'
 import { chart } from './chart.mjs'
 
@@ -5,8 +6,9 @@ export const panel = {
     get w() {
         return this.lanes + 4
     },
-
-    h: 2,
+    get h() {
+        return 2 / options.previewVerticalScale
+    },
 
     get lanes() {
         return archetypes.Initialization.import.get(0).lanes
