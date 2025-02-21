@@ -8,7 +8,7 @@ export const version = '1.3.1'
 
 export const databaseEngineItem = {
     name: 'mania',
-    version: 12,
+    version: 13,
     title: {
         en: 'Mania',
     },
