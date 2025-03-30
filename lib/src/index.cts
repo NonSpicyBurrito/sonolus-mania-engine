@@ -16,7 +16,7 @@ export const databaseEngineItem = {
         en: 'Mania',
     },
     author: {
-        en: 'Burrito',
+        en: 'Burrito#1000',
     },
     description: {
         en: [
