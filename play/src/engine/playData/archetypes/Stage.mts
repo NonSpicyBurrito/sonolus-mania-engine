@@ -33,7 +33,7 @@ export class Stage extends Archetype {
             if (!this.hitbox.contains(touch.position)) continue
             if (isUsed(touch)) continue
 
-            this.onEmptyTap(touch)
+            this.onEmptyTap(this.touchToLane(touch))
         }
     }
 
@@ -90,9 +90,12 @@ export class Stage extends Archetype {
         )
     }
 
-    onEmptyTap(touch: Touch) {
+    onEmptyTap(l: number) {
+        streams.set(-9999, time.now, 0)
+        streams.set(l, time.now, 0)
+
         if (options.sfxEnabled) this.playEmptySFX()
-        if (options.laneEffectEnabled) this.playEmptyLaneEffects(this.touchToLane(touch))
+        if (options.laneEffectEnabled) this.playEmptyLaneEffects(l)
     }
 
     touchToLane({ position }: Touch) {
