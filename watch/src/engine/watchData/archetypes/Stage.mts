@@ -1,4 +1,5 @@
 import { options } from '../../configuration/options.mjs'
+import { effect, sfxDistance } from '../effect.mjs'
 import { noteLayout } from '../note.mjs'
 import { scaledScreen } from '../scaledScreen.mjs'
 import { layer, skin } from '../skin.mjs'
@@ -11,6 +12,27 @@ export class Stage extends Archetype {
 
     despawnTime() {
         return 999999
+    }
+    preprocess() {
+        if (options.sfxEnabled) {
+            let t = -999999
+            // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+            while (true) {
+                const nt = streams.getNextKey(-9999, t)
+                if (nt === t) break
+
+                t = nt
+                effect.clips.stage.schedule(t, sfxDistance)
+            }
+        }
+
+        if (options.laneEffectEnabled) {
+            for (let i = 0; i < this.lanes; i++) {
+                archetypes.EmptyEffect.spawn({
+                    l: i - this.lanes / 2,
+                })
+            }
+        }
     }
 
     updateParallel() {
