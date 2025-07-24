@@ -4,7 +4,7 @@ export { mcToLevelData } from './mc/convert.js'
 export * from './mc/index.js'
 export { osuToMC } from './osu/convert.js'
 
-export const version = '1.3.4'
+export const version = '1.4.0'
 
 export const databaseEngineItem = {
     name: 'mania',
