@@ -38,7 +38,7 @@ export abstract class Note extends Archetype {
     globalPreprocess() {
         this.bucket.set(bucketWindows)
 
-        this.life.set({
+        this.archetypeLife.set({
             perfect: 0,
             great: 0,
             good: 0,
