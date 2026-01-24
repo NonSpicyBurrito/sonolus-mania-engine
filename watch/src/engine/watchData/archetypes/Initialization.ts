@@ -148,7 +148,7 @@ export class Initialization extends Archetype {
             background: false,
         })
 
-        ui.progress.set({
+        ui.progress.bar.set({
             anchor: uiRect.rb,
             pivot: { x: 0, y: 0 },
             size: { x: uiRect.h, y: 0.15 * ui.configuration.progress.scale },
@@ -243,7 +243,7 @@ export class Initialization extends Archetype {
             background: false,
         })
 
-        ui.progress.set({
+        ui.progress.bar.set({
             anchor: uiRect.lb,
             pivot: { x: 0, y: 0 },
             size: { x: uiRect.w, y: 0.15 * ui.configuration.progress.scale },
