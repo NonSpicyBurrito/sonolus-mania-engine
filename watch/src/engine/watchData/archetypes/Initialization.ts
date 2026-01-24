@@ -157,6 +157,17 @@ export class Initialization extends Archetype {
             horizontalAlign: HorizontalAlign.Center,
             background: true,
         })
+        ui.progress.graph.set({
+            anchor: uiRect.rb
+                .sub(new Vec(gap, 0))
+                .sub(new Vec(0.15 * ui.configuration.progress.scale, 0)),
+            pivot: { x: 0, y: 0 },
+            size: { x: uiRect.h, y: 0.3 * ui.configuration.progress.scale },
+            rotation: 90,
+            alpha: ui.configuration.progress.alpha,
+            horizontalAlign: HorizontalAlign.Center,
+            background: true,
+        })
     }
 
     setupHorizontalUI(inverted: boolean) {
@@ -247,6 +258,17 @@ export class Initialization extends Archetype {
             anchor: uiRect.lb,
             pivot: { x: 0, y: 0 },
             size: { x: uiRect.w, y: 0.15 * ui.configuration.progress.scale },
+            rotation: 0,
+            alpha: ui.configuration.progress.alpha,
+            horizontalAlign: HorizontalAlign.Center,
+            background: true,
+        })
+        ui.progress.graph.set({
+            anchor: uiRect.lb
+                .add(new Vec(0, gap))
+                .add(new Vec(0, 0.15 * ui.configuration.progress.scale)),
+            pivot: { x: 0, y: 0 },
+            size: { x: uiRect.w, y: 0.3 * ui.configuration.progress.scale },
             rotation: 0,
             alpha: ui.configuration.progress.alpha,
             horizontalAlign: HorizontalAlign.Center,
