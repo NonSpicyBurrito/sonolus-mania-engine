@@ -68,7 +68,7 @@ export class Initialization extends Archetype {
 
     setupVerticalUI(inverted: boolean) {
         const gap = 0.05
-        const uiRect = screen.rect.shrink(gap, gap)
+        const uiRect = safeArea.rect.shrink(gap, gap)
 
         ui.menu.set({
             anchor: uiRect.lt,
@@ -151,7 +151,7 @@ export class Initialization extends Archetype {
 
     setupHorizontalUI(inverted: boolean) {
         const gap = 0.05
-        const uiRect = screen.rect.shrink(gap, gap)
+        const uiRect = safeArea.rect.shrink(gap, gap)
 
         ui.menu.set({
             anchor: uiRect.rt,
