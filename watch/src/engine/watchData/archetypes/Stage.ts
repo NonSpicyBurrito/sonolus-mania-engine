@@ -48,27 +48,27 @@ export class Stage extends Archetype {
         for (let i = 0; i < this.lanes; i++) {
             skin.sprites.lane.draw(
                 Rect.rb.scale(1, -1).translate(i - this.lanes / 2, 0),
-                layer.stage,
+                [layer.stage],
                 1,
             )
 
-            skin.sprites.slot.draw(noteLayout(i - this.lanes / 2 + 0.5, 1), layer.slot, 1)
+            skin.sprites.slot.draw(noteLayout(i - this.lanes / 2 + 0.5, 1), [layer.slot], 1)
         }
 
         skin.sprites.stageLeftBorder.draw(
             Rect.lb.scale(0.125, -1).translate(-this.lanes / 2, 0),
-            layer.stage,
+            [layer.stage],
             1,
         )
         skin.sprites.stageRightBorder.draw(
             Rect.rb.scale(0.125, -1).translate(this.lanes / 2, 0),
-            layer.stage,
+            [layer.stage],
             1,
         )
 
         skin.sprites.judgmentLine.draw(
             Rect.one.scale(scaledScreen.w / 2, (-scaledScreen.h / 2) * 0.05).translate(0, 1),
-            layer.judgmentLine,
+            [layer.judgmentLine],
             1,
         )
     }
@@ -83,7 +83,7 @@ export class Stage extends Archetype {
                 t: scaledScreen.t,
                 b: Math.lerp(scaledScreen.t, 1, options.stageCover),
             }),
-            layer.cover,
+            [layer.cover],
             1,
         )
     }
