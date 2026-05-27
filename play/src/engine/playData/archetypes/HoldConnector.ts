@@ -2,7 +2,7 @@ import { options } from '../../configuration/options.js'
 import { effect } from '../effect.js'
 import { note, noteLayout } from '../note.js'
 import { holdEffectLayout, particle } from '../particle.js'
-import { getZ, layer, skin } from '../skin.js'
+import { layer, skin } from '../skin.js'
 import { archetypes } from './index.js'
 
 export class HoldConnector extends Archetype {
@@ -27,13 +27,10 @@ export class HoldConnector extends Archetype {
     connector = this.entityMemory({
         l: Number,
         r: Number,
-
-        z: Number,
     })
 
     slide = this.entityMemory({
         layout: Rect,
-        z: Number,
     })
 
     sfxInstanceId = this.entityMemory(LoopedEffectClipInstanceId)
@@ -69,10 +66,7 @@ export class HoldConnector extends Archetype {
         this.connector.l = this.head.lane - 0.5 * options.noteSize
         this.connector.r = this.head.lane + 0.5 * options.noteSize
 
-        this.connector.z = getZ(layer.note.connector, this.head.time, this.head.lane)
-
         noteLayout(this.head.lane, 1).copyTo(this.slide.layout)
-        this.slide.z = getZ(layer.note.slide, this.head.time, this.head.lane)
     }
 
     updateParallel() {
@@ -193,10 +187,18 @@ export class HoldConnector extends Archetype {
             b: y.max,
         })
 
-        skin.sprites.connector.draw(layout, this.connector.z, options.connectorAlpha)
+        skin.sprites.connector.draw(
+            layout,
+            [layer.note.connector, -this.head.time, -this.head.lane],
+            options.connectorAlpha,
+        )
     }
 
     renderSlide() {
-        skin.sprites.holdStartNote.draw(this.slide.layout, this.slide.z, 1)
+        skin.sprites.holdStartNote.draw(
+            this.slide.layout,
+            [layer.note.slide, -this.head.time, -this.head.lane],
+            1,
+        )
     }
 }

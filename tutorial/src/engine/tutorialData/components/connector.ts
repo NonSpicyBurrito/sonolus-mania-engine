@@ -32,14 +32,14 @@ export const connector = {
 
             const layout = new Rect({ l, r, t, b })
 
-            sprites.connector.draw(layout, layer.connector, a)
+            sprites.connector.draw(layout, [layer.connector], a)
         } else {
             const t = Math.unlerp(0, 2, mode === Mode.FallOut ? segment.time : 0)
             const b = Math.unlerp(0, 2, mode === Mode.FallIn ? segment.time : 2)
 
             const layout = new Rect({ l: -0.25, r: 0.25, b, t })
 
-            sprites.connector.draw(layout, layer.connector, 0.8)
+            sprites.connector.draw(layout, [layer.connector], 0.8)
         }
     },
 

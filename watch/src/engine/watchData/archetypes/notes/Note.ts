@@ -4,7 +4,7 @@ import { options } from '../../../configuration/options.js'
 import { effect, sfxDistance } from '../../effect.js'
 import { note, noteLayout } from '../../note.js'
 import { hitEffectLayout, particle } from '../../particle.js'
-import { getZ, layer } from '../../skin.js'
+import { layer } from '../../skin.js'
 
 export abstract class Note extends Archetype {
     hasInput = true
@@ -31,7 +31,6 @@ export abstract class Note extends Archetype {
     hiddenTime = this.entityMemory(Number)
 
     layout = this.entityMemory(Rect)
-    z = this.entityMemory(Number)
 
     abstract bucket: Bucket
 
@@ -109,8 +108,6 @@ export abstract class Note extends Archetype {
             this.hiddenTime = this.visualTime.max - note.duration * options.hidden
 
         noteLayout(this.lane, 0).copyTo(this.layout)
-
-        this.z = getZ(layer.note.body, this.targetTime, this.lane)
     }
 
     scheduleSFX() {
@@ -136,7 +133,11 @@ export abstract class Note extends Archetype {
     render() {
         const y = Math.unlerp(this.visualTime.min, this.visualTime.max, time.now)
 
-        this.sprite.draw(this.layout.translate(0, y), this.z, 1)
+        this.sprite.draw(
+            this.layout.translate(0, y),
+            [layer.note.body, -this.targetTime, -this.lane],
+            1,
+        )
     }
 
     despawnTerminate() {

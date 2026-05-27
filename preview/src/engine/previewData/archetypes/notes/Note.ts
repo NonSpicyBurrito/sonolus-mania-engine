@@ -3,7 +3,7 @@ import { options } from '../../../configuration/options.js'
 import { chart } from '../../chart.js'
 import { panel } from '../../panel.js'
 import { scaledScreen } from '../../scaledScreen.js'
-import { getZ, layer } from '../../skin.js'
+import { layer } from '../../skin.js'
 
 export abstract class Note extends Archetype {
     abstract sprite: SkinSprite
@@ -23,8 +23,6 @@ export abstract class Note extends Archetype {
         const time = bpmChanges.at(this.import.beat).time
         const pos = panel.getPos(time)
 
-        const z = getZ(layer.note, time, this.lane)
-
         const layout = new Rect({
             l: this.lane - 0.5 * options.noteSize,
             r: this.lane + 0.5 * options.noteSize,
@@ -32,6 +30,6 @@ export abstract class Note extends Archetype {
             t: 0.5 * options.noteSize * scaledScreen.wToH,
         }).add(pos)
 
-        this.sprite.draw(layout, z, 1)
+        this.sprite.draw(layout, [layer.note, -time, -this.lane], 1)
     }
 }
