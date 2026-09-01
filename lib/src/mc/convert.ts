@@ -4,6 +4,7 @@ import {
     LevelData,
     LevelDataEntity,
 } from '@sonolus/core'
+
 import { MC, MCBpmChangeObject, MCHoldNote, MCObject, MCTapNote } from './index.js'
 
 type Handler<T extends MCObject> = (object: T) => {
