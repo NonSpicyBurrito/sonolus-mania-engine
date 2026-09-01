@@ -3,6 +3,7 @@ import { EngineConfigurationOption, Text } from '@sonolus/core'
 export const optionsDefinition = {
     speed: {
         name: Text.Speed,
+        category: 'gameplay',
         standard: true,
         advanced: true,
         type: 'slider',
@@ -14,6 +15,7 @@ export const optionsDefinition = {
     },
     hidden: {
         name: Text.Hidden,
+        category: 'gameplay',
         standard: true,
         advanced: true,
         type: 'slider',
@@ -25,6 +27,7 @@ export const optionsDefinition = {
     },
     noteSpeed: {
         name: Text.NoteSpeed,
+        category: 'gameplay',
         scope: 'Mania',
         type: 'slider',
         def: 10,
@@ -34,29 +37,34 @@ export const optionsDefinition = {
     },
     fullscreenInputEnabled: {
         name: 'Fullscreen Input',
+        category: 'gameplay',
         scope: 'Mania',
         type: 'toggle',
         def: 0,
     },
     mirror: {
         name: Text.Mirror,
+        category: 'gameplay',
         type: 'toggle',
         def: 0,
     },
     sfxEnabled: {
         name: Text.Effect,
+        category: 'audio',
         scope: 'Mania',
         type: 'toggle',
         def: 1,
     },
     autoSFX: {
         name: Text.EffectAuto,
+        category: 'audio',
         scope: 'Mania',
         type: 'toggle',
         def: 0,
     },
     noteSize: {
         name: Text.NoteSize,
+        category: 'graphics',
         scope: 'Mania',
         type: 'slider',
         def: 1,
@@ -67,12 +75,14 @@ export const optionsDefinition = {
     },
     noteEffectEnabled: {
         name: Text.NoteEffect,
+        category: 'graphics',
         scope: 'Mania',
         type: 'toggle',
         def: 1,
     },
     noteEffectSize: {
         name: Text.NoteEffectSize,
+        category: 'graphics',
         scope: 'Mania',
         type: 'slider',
         def: 1,
@@ -83,6 +93,7 @@ export const optionsDefinition = {
     },
     connectorAlpha: {
         name: Text.ConnectorAlpha,
+        category: 'graphics',
         scope: 'Mania',
         type: 'slider',
         def: 1,
@@ -93,12 +104,14 @@ export const optionsDefinition = {
     },
     laneEffectEnabled: {
         name: Text.LaneEffect,
+        category: 'graphics',
         scope: 'Mania',
         type: 'toggle',
         def: 1,
     },
     judgeLinePosition: {
         name: Text.JudgelinePosition,
+        category: 'graphics',
         scope: 'Mania',
         type: 'slider',
         def: 0.85,
@@ -109,6 +122,7 @@ export const optionsDefinition = {
     },
     stageCover: {
         name: Text.StageCoverVertical,
+        category: 'graphics',
         scope: 'Mania',
         advanced: true,
         type: 'slider',
@@ -120,6 +134,7 @@ export const optionsDefinition = {
     },
     stageDirection: {
         name: Text.StageDirection,
+        category: 'graphics',
         scope: 'Mania',
         type: 'select',
         def: 1,
@@ -127,6 +142,7 @@ export const optionsDefinition = {
     },
     stageSize: {
         name: Text.StageSize,
+        category: 'graphics',
         scope: 'Mania',
         type: 'slider',
         def: 0.8,
@@ -137,12 +153,14 @@ export const optionsDefinition = {
     },
     lockStageAspectRatio: {
         name: Text.StageAspectratioLock,
+        category: 'graphics',
         scope: 'Mania',
         type: 'toggle',
         def: 0,
     },
     previewVerticalScale: {
         name: Text.PreviewScaleVertical,
+        category: 'miscellaneous',
         scope: 'Mania',
         type: 'slider',
         def: 1,
@@ -153,24 +171,28 @@ export const optionsDefinition = {
     },
     previewMeasure: {
         name: Text.PreviewMeasure,
+        category: 'miscellaneous',
         scope: 'Mania',
         type: 'toggle',
         def: 1,
     },
     previewBeat: {
         name: Text.PreviewBeat,
+        category: 'miscellaneous',
         scope: 'Mania',
         type: 'toggle',
         def: 1,
     },
     previewTime: {
         name: Text.PreviewTime,
+        category: 'miscellaneous',
         scope: 'Mania',
         type: 'toggle',
         def: 1,
     },
     previewBpm: {
         name: Text.PreviewBpm,
+        category: 'miscellaneous',
         scope: 'Mania',
         type: 'toggle',
         def: 1,
