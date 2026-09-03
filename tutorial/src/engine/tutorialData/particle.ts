@@ -1,4 +1,5 @@
 import { ParticleEffectName } from '@sonolus/core'
+
 import { note } from './note.js'
 
 export const particle = defineParticle({

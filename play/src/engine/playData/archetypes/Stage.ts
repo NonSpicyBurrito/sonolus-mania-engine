@@ -5,8 +5,8 @@ import { noteLayout } from '../note.js'
 import { particle } from '../particle.js'
 import { scaledScreen } from '../scaledScreen.js'
 import { layer, skin } from '../skin.js'
-import { isUsed } from './InputManager.js'
 import { archetypes } from './index.js'
+import { isUsed } from './InputManager.js'
 
 export class Stage extends Archetype {
     hitbox = this.entityMemory(Rect)
