@@ -1,4 +1,4 @@
-import { DatabaseEngineItem } from '@sonolus/core'
+import { DatabaseEngineItem, TextFunction } from '@sonolus/core'
 
 export { mcToLevelData } from './mc/convert.js'
 export * from './mc/index.js'
@@ -6,15 +6,19 @@ export { osuToMC } from './osu/convert.js'
 
 export const version = '1.4.3'
 
+export const engineFullName = {
+    en: 'Mania',
+} as const
+
+export const engineShortName = {
+    en: 'Mania',
+} as const
+
 export const databaseEngineItem = {
     name: 'mania',
     version: 13,
-    title: {
-        en: 'Mania',
-    },
-    subtitle: {
-        en: 'Mania',
-    },
+    title: { en: `${TextFunction.Localize}:${JSON.stringify(engineShortName)}` },
+    subtitle: { en: `${TextFunction.Localize}:${JSON.stringify(engineFullName)}` },
     author: {
         en: 'Burrito#1000',
     },
